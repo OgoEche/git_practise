@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+import django.contrib.staticfiles.storage
+import whitenoise.storage
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-t_#lai7hvn1y=3b%4*$(ox)-^+$&$s-frrnflup9d3^l*q8&w!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]  # new
 
 
 # Application definition
@@ -38,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',  # new
-    'accounts.apps.AccountsConfig', # new
+    'accounts.apps.AccountsConfig',  # new
+    'whitenoise.runserver_nostatic',  #new
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # new
+
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -119,6 +126,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # new
+STATIC_ROOT = BASE_DIR / 'staticfiles'  #new
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # new
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
